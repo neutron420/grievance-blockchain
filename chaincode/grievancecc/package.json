@@ -1,0 +1,17 @@
+{
+  "name": "grievancecc",
+  "version": "1.0.0",
+  "description": "Grievance complaint chaincode",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "fabric-contract-api": "2.5.0",
+    "fabric-shim": "2.5.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

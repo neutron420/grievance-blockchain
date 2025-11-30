@@ -1,0 +1,1 @@
+Error: chaincode install failed with status: 500 - failed to invoke backing implementation of 'InstallChaincode': could not build chaincode: docker build failed: docker image build failed: write unix @->/var/run/docker.sock: write: broken pipe
