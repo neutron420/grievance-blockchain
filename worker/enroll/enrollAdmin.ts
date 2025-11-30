@@ -20,10 +20,15 @@ async function main() {
     const caURL = ccp.certificateAuthorities["ca.org1.example.com"].url;
     const ca = new FabricCAServices(caURL);
 
-    const walletPath = path.join(process.env.HOME!, "wallet");
+    const walletPath = path.resolve(
+      process.env.HOME!,
+      "grievance-blockchain",
+      "worker",
+      "wallet"
+    );
+
     const wallet = await Wallets.newFileSystemWallet(walletPath);
 
-    // Check if admin already exists
     const adminExists = await wallet.get("admin");
     if (adminExists) {
       console.log("Admin already enrolled.");
@@ -45,8 +50,8 @@ async function main() {
     };
 
     await wallet.put("admin", identity);
-    console.log(" Admin enrolled and saved to wallet");
-
+    console.log("Admin enrolled successfully!");
+    
   } catch (err) {
     console.error("Failed to enroll admin:", err);
   }

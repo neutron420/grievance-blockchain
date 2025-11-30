@@ -23,7 +23,7 @@ async function main() {
     const walletPath = path.join(process.env.HOME!, "wallet");
     const wallet = await Wallets.newFileSystemWallet(walletPath);
 
-    // Check admin exists (needed to register new users)
+    // Check admin exists
     const admin = await wallet.get("admin");
     if (!admin) {
       throw new Error("Admin not enrolled yet.");
@@ -40,7 +40,7 @@ async function main() {
       return;
     }
 
-    // Register appUser
+    // Register appUser (simple registration without special attributes)
     const secret = await ca.register(
       {
         affiliation: "org1.department1",
@@ -66,10 +66,10 @@ async function main() {
     };
 
     await wallet.put("appUser", userIdentity);
-    console.log(" Registered and enrolled appUser");
+    console.log("✅ Registered and enrolled appUser");
 
   } catch (err) {
-    console.error(" Failed to register appUser:", err);
+    console.error("❌ Failed to register appUser:", err);
   }
 }
 

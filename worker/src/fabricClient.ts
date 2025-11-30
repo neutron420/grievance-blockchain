@@ -4,7 +4,6 @@ import * as path from "path";
 
 export async function connectToFabric() {
   try {
-    // Path to connection profile
     const ccpPath = path.resolve(
       process.env.HOME!,
       "grievance-blockchain",
@@ -16,27 +15,30 @@ export async function connectToFabric() {
     );
 
     const ccp = JSON.parse(fs.readFileSync(ccpPath, "utf8"));
-
-    // Wallet path
-    const walletPath = path.resolve(process.env.HOME!, "wallet");
+  
+    const walletPath = path.join(process.env.HOME!, "wallet");
     const wallet = await Wallets.newFileSystemWallet(walletPath);
 
-    const identity = await wallet.get("appUser");
+    // Use admin identity
+    const identity = await wallet.get("admin");
     if (!identity) {
-      throw new Error(" appUser not found in wallet");
+      throw new Error(" admin not found in wallet");
     }
 
     const gateway = new Gateway();
     await gateway.connect(ccp, {
       wallet,
-      identity: "appUser",
-      discovery: { enabled: true, asLocalhost: true },
+      identity: "admin",
+      discovery: { 
+        enabled: false,
+        asLocalhost: true 
+      },
     });
 
     const network = await gateway.getNetwork("grievancechannel");
     const contract = network.getContract("grievancecc");
 
-    console.log(" Connected to Fabric via gateway");
+    console.log("Connected to Fabric via gateway (using admin)");
     return contract;
   } catch (err) {
     console.error(" Error connecting to Fabric:", err);
